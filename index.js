@@ -603,7 +603,7 @@ const frameLight = new THREE.PointLight(0xffffff, 4, 300);  // Color, intensity,
 frameLight.position.set(-70, 460, 220);  // Set initial position above the character (adjust as needed)
 scene.add(frameLight);  // Add the light to the scene
 const frameLightHelper = new THREE.PointLightHelper(frameLight, 10);  // Adjust size of the helper
-scene.add(frameLightHelper);
+//scene.add(frameLightHelper);
 
 const followLight = new THREE.SpotLight(0xffffff);
 const followLightHelper = new THREE.SpotLightHelper(followLight,1);
@@ -616,7 +616,7 @@ followLight.position.set(0, 0, 1000); // Position the light above and in front o
 followLight.target = character; // Make the light point at the model
 followLight.target.updateMatrixWorld(); 
 scene.add(followLight);
-scene.add(followLightHelper);
+//scene.add(followLightHelper);
 followLightHelper.update();
 }
 
