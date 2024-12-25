@@ -8,7 +8,7 @@ import { RGBELoader } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/
 
 //set scene
 const scene= new THREE.Scene();
-scene.background = new THREE.Color(0xffffff);
+scene.background = new THREE.Color(0x000000);
 const sizes=(window.innerWidth,window.innerHeight);
 const near=0.1;
 const far=3000;
