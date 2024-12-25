@@ -30,6 +30,76 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;//enable shadow
 
 document.body.appendChild(renderer.domElement);
 
+
+
+//load logo
+let logoModel;
+const logoLocX=0;
+const logoLocY=0;
+const logoLocZ=800;
+
+const logoLoader= new GLTFLoader();
+logoLoader.load('asset/logoModel-PINK/logo copy.gltf', function (gltf) {
+    logoModel=gltf.scene;
+     scene.add(gltf.scene);
+     gltf.scene.scale.set(500,500, 500);
+     gltf.scene.position.set(logoLocX, logoLocY, logoLocZ);
+     console.log(gltf.scene);
+
+     logoModel.traverse(function (child) {
+        if (child.isMesh) {
+            child.material.transparent = true; // Ensure the material supports transparency
+        }
+    });
+    
+    function rotateLogo() {
+        if (logoModel) {
+            logoModel.rotation.y += 0.02; // Adjust rotation speed
+            renderer.render(scene, camera);
+            requestAnimationFrame(rotateLogo);
+        }
+    }
+    rotateLogo();  // Start rotation
+    //setTimeout(fadeOutLogoModel, 500);
+
+});
+
+const logoLight = new THREE.SpotLight(0xffffff, 0.8, 600,0.8); // (color, intensity)
+logoLight.position.set(logoLocX, logoLocY+70, logoLocZ+300); //top-left-ish
+scene.add(logoLight);
+
+
+function fadeOutLogoModel() {
+    if (logoModel) {
+        let opacity = 1; // Start from 50%
+
+        function animateFadeOut() {
+            opacity -= 0.02; // Adjust the fade-out speed
+            logoModel.traverse(function (child) {
+                if (child.isMesh) {
+                    child.material.opacity = opacity;
+                }
+            });
+
+            if (opacity > 0) {
+                requestAnimationFrame(animateFadeOut);
+                renderer.render(scene, camera);
+            } else {
+                scene.remove(logoModel); // Remove model from scene after fading out completely
+                console.log('Logo model removed.');
+            }
+        }
+
+        animateFadeOut();
+    }
+}
+
+
+
+
+
+
+
 //HDR FOR EnvMap
 let envMap;
 const envLoader=new RGBELoader();
@@ -353,7 +423,7 @@ smallmarkLoader.load('asset/blender_black_logo.glb', function (gltf) {
     gltf.scene.scale.set(100, 100, 100);
     gltf.scene.position.y-=290;
  gltf.scene.position.x-=160;
-  
+      fadeOutLogoModel();
     // gltf.scene.position.set(-90, 10, 0);
     // gltf.scene.rotation.y = Math.PI / 80;
 }, function (xhr) {
